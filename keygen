@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from library import *
+from bitcoinkeytool import BitcoinAccount
+from ethereumkeytool import EthereumAccount
     
 for n in range(100):   # number of key pairs to generate`
 
