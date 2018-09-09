@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+
+from library import *
+    
+for n in range(100):   # number of key pairs to generate`
+
+    # generate private key , uncompressed WIF starts with "5"
+    priv_key = gen_private_key()
+    WIF = priv_to_wif(priv_key)
+    
+    # get public key , uncompressed address starts with "1"
+
+    public = priv_to_pub(wif_to_priv(WIF))
+    publ_addr_b = pub_to_P2PKH(public)
+    i = n + 1
+    print('Private Key    ', str(i) + ": " + WIF)
+    print("Bitcoin Address", str(i) + ": " + publ_addr_b)
+
+print("##############")
+
+for n in range(100):   # number of key pairs to generate`
+
+    # generate private key , uncompressed WIF starts with "5"
+    priv_key = gen_private_key()
+    
+    # get public key , uncompressed address starts with "1"
+
+    public = priv_to_pub_raw(priv_key)
+    publ_addr_b = pub_to_ethereum_addr(public)
+
+    i = n + 1
+    print('Private Key    ', str(i) + ": " + priv_key.hex())
+    print("Ethereum Address", str(i) + ": " + checksum_encode(publ_addr_b))
+
