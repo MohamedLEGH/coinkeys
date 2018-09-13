@@ -92,6 +92,7 @@ class RippleAccount(Account):
     def to_pub(self,algorithm='ecdsa-secp256k1'):
         public = priv_to_pub(self.pk,algorithm=algorithm)
         return public
-    def to_accountid(self):
-        pub = self.to_pub(algorithm='ecdsa-secp256k1')
+        
+    def to_accountid(self,algorithm='ecdsa-secp256k1'):
+        pub = self.to_pub(algorithm=algorithm)
         return pub_to_account_id(pub,network_prefix=self.addrprefix)
