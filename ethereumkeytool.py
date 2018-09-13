@@ -1,6 +1,6 @@
 from Cryptodome.Hash import keccak # for Ethereum hashing
 
-from library import gen_private_key,priv_to_pub_raw,Account
+from library import priv_to_pub_raw,Account
 ############## Ethereum tools ##############
 
 def keccak256(x): return keccak.new(digest_bits=256,data=x).digest()
@@ -15,6 +15,7 @@ def checksum_encode(addr): # Takes a 20-byte binary address as input
         else: 
             ret += address[i]
     return '0x' + ret
+
 
 class EthereumAccount(Account):
     def __init__(self,private=None):

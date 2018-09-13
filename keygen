@@ -5,7 +5,7 @@ from ethereumkeytool import EthereumAccount
     
 for n in range(100):   # number of key pairs to generate`
 
-    # generate private key , uncompressed WIF starts with "5", compressed 
+    # generate private key , uncompressed WIF starts with "5", compressed
     # with L or K
     A = BitcoinAccount()
     WIF = A.to_wif()
