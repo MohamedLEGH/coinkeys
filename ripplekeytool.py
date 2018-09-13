@@ -77,13 +77,20 @@ class RippleAccount(Account):
         
     @classmethod
     def fromphrase(cls,phrase,index_account=0,algorithm='ecdsa-secp256k1'):
-        secret = seedFromPhrase(phrase)
-        root=seed_to_rootaccount(secret,algorithm=algorithm)
+        seed = seedFromPhrase(phrase)
+        root=seed_to_rootaccount(seed,algorithm=algorithm)
         ck,cp = rootaccount_to_child(root,index_number=index_account,algorithm=algorithm)
         return cls(ck,algorithm=algorithm)
 
     @classmethod
     def fromsecret(cls,secret,index_account=0,algorithm='ecdsa-secp256k1'):
+        seed = seed_decoded(secret)
+        root=seed_to_rootaccount(seed,algorithm=algorithm)
+        ck,cp = rootaccount_to_child(root,index_number=index_account,algorithm=algorithm)
+        return cls(ck,algorithm=algorithm)
+    
+    @classmethod
+    def fromseed(cls,secret,index_account=0,algorithm='ecdsa-secp256k1'):
         root=seed_to_rootaccount(secret,algorithm=algorithm)
         ck,cp = rootaccount_to_child(root,index_number=index_account,algorithm=algorithm)
         return cls(ck,algorithm=algorithm)
