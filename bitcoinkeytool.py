@@ -35,8 +35,8 @@ class BitcoinAccount(Account):
         return cls(wif_to_priv(wif))
         
     
-    def to_wif(self,network_prefix=network_wifprefix,compressed=True):
-        s1 = bytes([network_prefix]) + self.pk
+    def to_wif(self,compressed=True):
+        s1 = bytes([self.network_wifprefix]) + self.pk
         if(compressed):
             s1+= bytes([0x01]) # add compressed flag byte
         checksum = doublehash(s1)[:4] # first 4 bytes = checksum
@@ -47,31 +47,31 @@ class BitcoinAccount(Account):
         public = priv_to_pub(self.pk,compressed)
         return public
 
-    def to_P2PKH(self,network_prefix=network_addrprefix,compressed=True):
+    def to_P2PKH(self,compressed=True):
         pub = self.to_pub(compressed=compressed)
-        encrypted_pub = bytes([network_prefix]) + hash160(pub)
+        encrypted_pub = bytes([self.network_addrprefix]) + hash160(pub)
         check = doublehash(encrypted_pub)
         checksum = check[:4]
         address = encrypted_pub + checksum
         return b58encode(address)
 
-    def to_address(self,network_prefix=network_addrprefix,compressed=True):
-        return self.to_P2PKH(network_prefix=network_prefix,compressed=compressed)
+    def to_address(self,compressed=True):
+        return self.to_P2PKH(compressed=compressed)
 
 
-def gen_wif(network_prefix=bitcoin_wifprefix,compressed=True): 
+def gen_wif(compressed=True): 
     B = BitcoinAccount()
-    return B.to_wif(network_prefix=network_prefix,compressed=compressed)
+    return B.to_wif(compressed=compressed)
 
-def wif_uncompressed_to_compressed(self,wif,network_prefix=bitcoin_wifprefix):
+def wif_uncompressed_to_compressed(self,wif):
     priv = wif_to_priv(wif,compressed=False)
     B = BitcoinAccount(priv)
-    return B.to_wif(network_prefix=network_prefix,compressed=True)
+    return B.to_wif(compressed=True)
 
-def wif_compressed_to_uncompressed(self,wif,network_prefix=bitcoin_wifprefix):
+def wif_compressed_to_uncompressed(self,wif):
     priv = wif_to_priv(wif,compressed=True)
     B = BitcoinAccount(priv)
-    return B.to_wif(priv,network_prefix=network_prefix,compressed=False)
+    return B.to_wif(priv,compressed=False)
 
 def pub_uncompressed_to_compressed(pub):
     return pub_to_pub(pub).format(compressed=True)
@@ -79,13 +79,13 @@ def pub_uncompressed_to_compressed(pub):
 def pub_compressed_to_uncompressed(pub):
     return pub_to_pub(pub).format(compressed=False)
 
-def test_wif_checksum(wif,network_prefix=bitcoin_wifprefix,compressed=True):
+def test_wif_checksum(wif,compressed=True):
     pkeytested = b58decode(wif)
     checksum_to_test = pkeytested[-4:]
     pkey = pkeytested[:-4]
     checksum = doublehash(pkey)[:4] # first 4 bytes = checksum
     valid = (checksum_to_test==checksum and pkeytested[:1] \
-    == bytes([network_prefix])) 
+    == bytes([self.network_wifprefix])) 
     return valid
 
 def iswifcompressed(wif):

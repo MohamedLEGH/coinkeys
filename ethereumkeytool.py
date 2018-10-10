@@ -20,7 +20,7 @@ def checksum_encode(addr): # Takes a 20-byte binary address as input
 class EthereumAccount(Account):
     def __init__(self,private=None):
         super().__init__(private)
-        self.private_key = self.pk.hex()
+
 
     def to_pub(self):
         return priv_to_pub_raw(self.pk)

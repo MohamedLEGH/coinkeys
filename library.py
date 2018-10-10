@@ -51,6 +51,7 @@ class Account:
         if(private is None): # need to check type of input (bytes only)
             private=gen_private_key(algorithm=algorithm)
         self.pk = private
+        self.private_key = private.hex()
         
     @classmethod
     def fromhex(cls, hexa): # need to check type of input (str only)

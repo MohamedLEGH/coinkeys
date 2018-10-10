@@ -2,8 +2,9 @@
 
 from bitcoinkeytool import BitcoinAccount
 from ethereumkeytool import EthereumAccount
+from ripplekeytool import RippleAccount
     
-for n in range(100):   # number of key pairs to generate`
+for n in range(10):   # number of key pairs to generate`
 
     # generate private key , uncompressed WIF starts with "5", compressed
     # with L or K
@@ -15,12 +16,12 @@ for n in range(100):   # number of key pairs to generate`
     addr = A.to_address()
 
     i = n + 1
-    print('Private Key    ', str(i) + ": " + WIF)
+    print('Bitcoin Private Key    ', str(i) + ": " + WIF)
     print("Bitcoin Address", str(i) + ": " + addr)
 
 print("##############")
 
-for n in range(100):   # number of key pairs to generate`
+for n in range(10):   # number of key pairs to generate`
 
     # generate private key , uncompressed WIF starts with "5"
     B = EthereumAccount()
@@ -31,6 +32,22 @@ for n in range(100):   # number of key pairs to generate`
     addr = B.to_address()
 
     i = n + 1
-    print('Private Key    ', str(i) + ": " + priv)
+    print('Ethereum Private Key    ', str(i) + ": " + priv)
     print("Ethereum Address", str(i) + ": " + addr)
+
+print("##############")
+
+for n in range(10):   # number of key pairs to generate`
+
+    # generate private key , uncompressed WIF starts with "5"
+    C = RippleAccount()
+    
+    # get public key , uncompressed address starts with "1"
+    priv = C.private_key
+    
+    addr = C.to_accountid()
+
+    i = n + 1
+    print('Ripple Private Key    ', str(i) + ": " + priv)
+    print("Ripple Address", str(i) + ": " + addr)
 

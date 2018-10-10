@@ -39,7 +39,7 @@ def seed_decoded(seed_b58):
     return s[1:-4]
 
 def generateSeed():
-    s = urandom(16).hex()
+    s = urandom(16).hex() # real entropy ?
     seed = seedFromPhrase(s)
     return seed_encoded(seed)
 
