@@ -41,7 +41,7 @@ class BitcoinAccount(Account):
             s1+= bytes([0x01]) # add compressed flag byte
         checksum = doublehash(s1)[:4] # first 4 bytes = checksum
         wif = s1 + checksum
-        return b58encode(wif)
+        return b58encode(wif).decode('utf8')
 
     def to_pub(self,compressed=True):
         public = priv_to_pub(self.pk,compressed)
@@ -53,7 +53,7 @@ class BitcoinAccount(Account):
         check = doublehash(encrypted_pub)
         checksum = check[:4]
         address = encrypted_pub + checksum
-        return b58encode(address)
+        return b58encode(address).decode('utf8')
 
     def to_address(self,compressed=True):
         return self.to_P2PKH(compressed=compressed)
