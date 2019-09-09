@@ -16,7 +16,7 @@ def ripemd160(x): return hashlib.new('ripemd160',data=x).digest()
 def hash160(x) : return ripemd160(hash256(x))
 
 def wif_to_priv(wif,compressed=True):
-    pkeychecked = b58decode(wif) # convert to base58
+    pkeychecked = b58decode(wif).decode("utf-8") # convert to base58
     
     # remove firt byte (network flag) 
     # and last 4 bytes (checksum) 
@@ -80,7 +80,7 @@ def pub_compressed_to_uncompressed(pub):
     return pub_to_pub(pub).format(compressed=False)
 
 def test_wif_checksum(wif,compressed=True):
-    pkeytested = b58decode(wif)
+    pkeytested = b58decode(wif).decode("utf-8")
     checksum_to_test = pkeytested[-4:]
     pkey = pkeytested[:-4]
     checksum = doublehash(pkey)[:4] # first 4 bytes = checksum
