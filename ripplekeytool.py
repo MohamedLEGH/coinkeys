@@ -32,7 +32,7 @@ def seed_encoded(seed):
     check = doublehash(s1)
     checksum = check[:4]
     seed = s1 + checksum
-    return base58.b58encode(seed)
+    return base58.b58encode(seed).decode('utf8')
 
 def seed_decoded(seed_b58):
     s = base58.b58decode(seed_b58)
@@ -65,7 +65,7 @@ def pub_to_account_id(pub,network_prefix=ripple_addrprefix):
     check = doublehash(encrypted_pub)
     checksum = check[:4]
     address = encrypted_pub + checksum
-    return base58.b58encode(address)
+    return base58.b58encode(address).decode('utf8')
     
 class RippleAccount(Account):
     def __init__(self,private=None,algorithm='ecdsa-secp256k1'):
