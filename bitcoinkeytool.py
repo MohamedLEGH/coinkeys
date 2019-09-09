@@ -58,6 +58,11 @@ class BitcoinAccount(Account):
     def to_address(self,compressed=True):
         return self.to_P2PKH(compressed=compressed)
 
+    def __repr__(self, compressed=True):
+        string_val = "WIF: " + str(self.to_wif(compressed)) + "\n" + \
+            "Address: " + self.to_address(compressed)
+        return string_val
+
 
 def gen_wif(compressed=True): 
     B = BitcoinAccount()
