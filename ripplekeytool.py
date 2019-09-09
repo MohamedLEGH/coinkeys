@@ -35,7 +35,7 @@ def seed_encoded(seed):
     return base58.b58encode(seed).decode('utf8')
 
 def seed_decoded(seed_b58):
-    s = base58.b58decode(seed_b58)
+    s = base58.b58decode(seed_b58).decode("utf-8")
     return s[1:-4]
 
 def generateSeed():
