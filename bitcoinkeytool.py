@@ -1,7 +1,7 @@
 from base58 import b58encode,b58decode # for Bitcoin encoding
 import hashlib # for Bitcoin hashing
 
-from library import Account,priv_to_pub,pub_to_pub
+from library import Account,priv_to_pub,pub_to_pub,pub_from_signature
 ################ Bitcoin tools ##############
 bitcoin_wifprefix=0x80
 bitcoin_addrprefix=0x00
@@ -22,6 +22,15 @@ def wif_to_priv(wif,compressed=True):
     # and last 4 bytes (checksum) 
     # or last 5 bytes for compressed because of the compressed byte flag
     return pkeychecked[1:-5] if compressed else pkeychecked[1:-4]
+
+def public_to_P2PKH(public_key, compressed=True, network_addrprefix=bitcoin_wifprefix):
+    public = pub_to_pub(public_key, compressed=True)
+    encrypted_pub = bytes([network_addrprefix]) + hash160(public)
+    check = doublehash(encrypted_pub)
+    checksum = check[:4]
+    address = encrypted_pub + checksum
+    return b58encode(address).decode()
+
 
 class BitcoinAccount(Account):
     network_wifprefix=bitcoin_wifprefix
@@ -49,11 +58,7 @@ class BitcoinAccount(Account):
 
     def to_P2PKH(self,compressed=True):
         pub = self.to_pub(compressed=compressed)
-        encrypted_pub = bytes([self.network_addrprefix]) + hash160(pub)
-        check = doublehash(encrypted_pub)
-        checksum = check[:4]
-        address = encrypted_pub + checksum
-        return b58encode(address).decode()
+        return public_to_P2PKH(pub, compressed=True, network_addrprefix=self.network_wifprefix)
 
     def to_address(self,compressed=True):
         return self.to_P2PKH(compressed=compressed)
