@@ -50,7 +50,7 @@ def pub_from_signature(signature, message, curve='ecdsa-secp256k1'):
         public_key = coincurve.PublicKey.from_signature_and_message(signature, message.encode()).format()
         return public_key
     else:
-        return "not available yet
+        return "not available yet"
  
 class Account:
     
