@@ -51,6 +51,7 @@ class Account:
         if(private is None): # need to check type of input (bytes only)
             private=gen_private_key(algorithm=algorithm)
         self.pk = private
+        self.curve = algorithm
  
     @classmethod
     def fromhex(cls, hexa):  # need to check type of input (str only)
@@ -72,6 +73,9 @@ class Account:
     
     
     def sign(self,message):
-        signature = coincurve.PrivateKey(self.pk).sign(message.encode())
+        if(self.curve == 'ecdsa-secp256k1'):
+            signature = coincurve.PrivateKey(self.pk).sign(message.encode())
+        else:
+            signature = ed25519.SigningKey(self.pk).sign(message.encode())
         return signature
 
