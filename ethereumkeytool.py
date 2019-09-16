@@ -27,7 +27,7 @@ class EthereumAccount(Account):
 
     def to_address(self,checksum=True):
         address = '0x'+ keccak256(self.to_pub())[-20:].hex()
-        if(checksum):
+        if checksum:
             address = checksum_encode(address)
         return address
 
