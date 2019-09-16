@@ -51,15 +51,7 @@ class Account:
         if(private is None): # need to check type of input (bytes only)
             private=gen_private_key(algorithm=algorithm)
         self.pk = private
-
-    def private_key(self):
-        return self.pk.hex()
-
-    def to_file(self, file_name):
-        key = {"private_key": self.private_key()}
-        with open(file_name, 'w') as key_file:
-            json.dump(key, key_file)
-
+ 
     @classmethod
     def fromhex(cls, hexa):  # need to check type of input (str only)
         return cls(bytes.fromhex(hexa))
@@ -69,3 +61,17 @@ class Account:
         with open(file_name) as json_file:
             data = json.load(json_file)
             return cls.fromhex(data["private_key"])
+
+    def private_key(self):
+        return self.pk.hex()
+
+    def to_file(self, file_name):
+        key = {"private_key": self.private_key()}
+        with open(file_name, 'w') as key_file:
+            json.dump(key, key_file)
+    
+    
+    def sign(self,message):
+        signature = coincurve.PrivateKey(self.pk).sign(message.encode())
+        return signature
+
