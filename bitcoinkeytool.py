@@ -103,3 +103,8 @@ def iswifcompressed(wif):
     
 def ispubcompressed(pub):
     return True if len(pub)==33 else False
+
+def verify_signature(signature,message,address):
+    public_key = self.pub_from_signature(signature,message)
+    address_computed = public_to_P2PKH(public_key)
+    return address_computed == address
